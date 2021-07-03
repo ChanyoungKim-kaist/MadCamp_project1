@@ -1,14 +1,13 @@
-package com.example.viewpager
+package com.example.viewpager.contact
 
 import android.app.Activity
-import java.util.ArrayList
-import com.example.viewpager.ContactModel
-import androidx.recyclerview.widget.RecyclerView
-import android.view.ViewGroup
-import android.view.View
 import android.view.LayoutInflater
-import com.example.viewpager.R
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.viewpager.R
+import java.util.*
 
 class MainAdapter(//initialize variable
     var activity: Activity, var arrayList: ArrayList<ContactModel>

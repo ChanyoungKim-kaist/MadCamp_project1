@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.viewpager.gallery.Image
+import com.example.viewpager.gallery.ImageAdapter
 
 class Fragment2 : Fragment() {
 
@@ -53,11 +55,9 @@ class Fragment2 : Fragment() {
         {
             progressBar?.visibility= View.VISIBLE
             allPictures = getAllImages()
-            imageRecycler?.adapter=ImageAdapter(requireContext(), allPictures!! )
+            imageRecycler?.adapter= ImageAdapter(requireContext(), allPictures!! )
             progressBar?.visibility=View.GONE
         }
-
-
     }
 
     private fun getAllImages(): ArrayList<Image>? {
@@ -69,7 +69,7 @@ class Fragment2 : Fragment() {
         try {
             cursor!!.moveToFirst()
             do{
-                val image=Image()
+                val image= Image()
                 image.imagePath=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 image.imageName=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
                 images.add(image)

@@ -2,18 +2,23 @@ package com.example.viewpager
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.viewpager.contact.ContactModel
+import com.example.viewpager.contact.MainAdapter
 import java.util.*
 
 class Fragment1 : Fragment() {
@@ -22,19 +27,35 @@ class Fragment1 : Fragment() {
     var arrayList = ArrayList<ContactModel>()
     var adapter: MainAdapter? = null
 
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_1, container, false)
+
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+//        var number: String?=""
+
         //Assign variable
         recyclerView = view.findViewById(R.id.recycler_view)
+
+
+        //button click handle
+//        val callBtn = view.findViewById<ImageButton>(R.id.callBtn)
+//        callBtn.setOnClickListener{
+//            //get input from edit text
+//            number =
+//        }
 
         //check permission
         checkPermission()
@@ -128,6 +149,16 @@ class Fragment1 : Fragment() {
                                 ContactsContract.CommonDataKinds.Phone.NUMBER
                             )
                         )
+                        var dialNumber: String?=""
+                        val callBtn = view?.findViewById<ImageButton>(R.id.callBtn)
+                        callBtn?.setOnClickListener{
+                            //get input from contact address
+                            dialNumber = number
+                            //Dialer intent
+                            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel: " + Uri.encode(dialNumber)))
+                            startActivity(intent)
+                        }
+
                         //Initialize contact model
                         val model = ContactModel()
                         //Set name

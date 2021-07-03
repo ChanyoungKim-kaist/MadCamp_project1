@@ -1,4 +1,4 @@
-package com.example.viewpager
+package com.example.viewpager.contact
 
 class ContactModel {
     //Generate getter and setter
