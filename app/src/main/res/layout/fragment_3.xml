@@ -4,24 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment3"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".Fragment3">
 
-    <Button
-        android:id="@+id/btn_select_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text = "Select Images from Gallery"
-        android:background="@color/design_default_color_primary"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:layout_margin="10dp"/>
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginVertical="12dp"
+        android:src="@drawable/ic_baseline_cloud_queue_24"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_photo"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:text="Peaches"
+        android:textColor="#000"
+        android:textSize="15dp" />
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginVertical="12dp"
+        android:src="@drawable/cover"
+        android:contentDescription="TODO" />
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="12dp"
+        android:progress="50"
+        android:progressTint="#554E4E"
+        android:thumbTint="@color/black"
+        />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/beforeBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_baseline_navigate_before_24"
+            android:background="@null"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/playBtn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="12dp"
+            android:src="@drawable/ic_baseline_play_arrow_24"
+            android:background="@null"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/nextBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_baseline_navigate_next_24"
+            android:background="@null"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
 
 </LinearLayout>
