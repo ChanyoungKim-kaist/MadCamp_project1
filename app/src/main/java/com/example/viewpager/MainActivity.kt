@@ -35,10 +35,12 @@ class MainActivity : AppCompatActivity() {
                     tab.setIcon(tabIcon[position])
                 }
                 2->{
-                    tab.text="Free"
+                    tab.text="Music"
                     tab.setIcon(tabIcon[position])
                 }
             }
         }.attach()
     }
+
+
 }

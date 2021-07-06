@@ -54,6 +54,15 @@ dependencies {
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    implementation 'gun0912.ted:tedpermission:2.2.3'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+
+    //7.4 날씨 API
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+
+
 }
 repositories {
     mavenCentral()
