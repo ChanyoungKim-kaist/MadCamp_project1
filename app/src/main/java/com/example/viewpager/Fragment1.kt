@@ -83,7 +83,7 @@ class Fragment1 : Fragment() {
         TedPermission.with(requireContext())
             .setPermissionListener(permission)
             .setRationaleMessage("연락처를 사용하시려면 권한을 허용해주세요.")
-            .setDeniedMessage("권한을 거부")
+            .setDeniedMessage("권한을 거부함")
             .setPermissions(android.Manifest.permission.READ_CONTACTS)
             .check()
     }
