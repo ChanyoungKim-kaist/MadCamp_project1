@@ -27,80 +27,8 @@ class Fragment3 : Fragment() {
     lateinit var runnable: Runnable
     private var handler = Handler()
     private var mediaplayer: MediaPlayer? = null
+    private var weatherResult: String? = null
 
-    /*/7.5 GPS
-    val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION)
-
-    val PERMISSIONS_REQUEST_CODE = 100
-
-    val locatioNManager: LocationManager? =
-        requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-
-    private fun getLocation(){
-        var userLocation: Location = getLatLng()
-
-        if(userLocation != null){
-            var latitude = userLocation.latitude
-            var longitude = userLocation.longitude
-            Log.d("CheckCurrentLocation", "현재 내 위치 값: ${latitude}, ${longitude}")
-
-            var mGeoCoder =  Geocoder(getActivity()?.getApplicationContext(), Locale.KOREAN)
-            var mResultList: List<Address>? = null
-            try{
-                mResultList = mGeoCoder.getFromLocation(
-                    latitude!!, longitude!!, 1
-                )
-            }catch(e: IOException){
-                e.printStackTrace()
-            }
-            if(mResultList != null){
-                Log.d("CheckCurrentLocation", mResultList[0].getAddressLine(0))
-            }
-        }
-    }
-
-    private fun getLatLng(): Location {
-        var currentLatLng: Location? = null
-        var hasFineLocationPermission = ContextCompat.checkSelfPermission(context as Activity,
-            Manifest.permission.ACCESS_FINE_LOCATION)
-        var hasCoarseLocationPermission = ContextCompat.checkSelfPermission(context as Activity,
-            Manifest.permission.ACCESS_COARSE_LOCATION)
-
-        if(hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
-            hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED){
-            val locatioNProvider = LocationManager.GPS_PROVIDER
-            currentLatLng = locatioNManager?.getLastKnownLocation(locatioNProvider)
-        }else{
-            if(ActivityCompat.shouldShowRequestPermissionRationale(context as Activity, REQUIRED_PERMISSIONS[0])){
-                ActivityCompat.requestPermissions(context as Activity, REQUIRED_PERMISSIONS, PERMISSIONS_REQUEST_CODE)
-            }else{
-                ActivityCompat.requestPermissions(context as Activity, REQUIRED_PERMISSIONS, PERMISSIONS_REQUEST_CODE)
-            }
-            currentLatLng = getLatLng()
-        }
-        return currentLatLng!!
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if(requestCode == PERMISSIONS_REQUEST_CODE && grantResults.size == REQUIRED_PERMISSIONS.size){
-            var check_result = true
-            for(result in grantResults){
-                if(result != PackageManager.PERMISSION_GRANTED){
-                    check_result = false;
-                    break;
-                }
-            }
-            if(check_result){
-            }else{
-                if(ActivityCompat.shouldShowRequestPermissionRationale(context as Activity, REQUIRED_PERMISSIONS[0])
-                    || ActivityCompat.shouldShowRequestPermissionRationale(context as Activity, REQUIRED_PERMISSIONS[1])){
-                    activity?.finish()
-                }
-            }
-        }
-    }*/
     ////7.4 날씨 API
     companion object{
         var BaseUrl = "https://api.openweathermap.org/"
@@ -108,7 +36,6 @@ class Fragment3 : Fragment() {
         var lat = "35.1438"
         var lon = "127.33"
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -127,6 +54,7 @@ class Fragment3 : Fragment() {
 
         val playbutton = view.findViewById<ImageButton>(R.id.playBtn)
         val seekbar = view.findViewById<SeekBar>(R.id.seekbar)
+        var index = 1
 
         //7.4 날씨 API
         val tem = view.findViewById<TextView>(R.id.tem)
@@ -143,6 +71,7 @@ class Fragment3 : Fragment() {
         var mediaplayer = MediaPlayer.create(requireContext(), R.raw.peaches)
         val service = retrofit.create(WeatherService::class.java)
         val call = service.getCurrentWeatherData(lat, lon, AppId)
+
         call.enqueue(object : Callback<WeatherResponse> {
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
                 Log.d("MainActivity", "result :" + t.message)
@@ -157,18 +86,17 @@ class Fragment3 : Fragment() {
                     var cTemp =  round(weatherResponse!!.main!!.temp - 273.15)  //켈빈을 섭씨로 변환
                     var minTemp = weatherResponse!!.main!!.temp_min - 273.15
                     var maxTemp = weatherResponse!!.main!!.temp_max - 273.15
-                    var weatherResult = weatherResponse!!.weather!!.get(0).main
+                    weatherResult = weatherResponse!!.weather!!.get(0).main
                     val stringBuilder =
                         "날씨: " + weatherResult + "\n"
                     tem.text = "${cTemp}°C"
 
 
                     if(weatherResult == "Clouds"){
-                        mediaplayer = MediaPlayer.create(requireContext(), R.raw.peaches)
                         weatherIcon.setImageResource(R.drawable.cloud)
+                        mediaplayer = MediaPlayer.create(requireContext(), R.raw.peaches)
                         musicCover.setImageResource(R.drawable.cover)
                         musicTitle.text = "Peaches - Justin Bieber"
-
                     }
                     else if(weatherResult == "Rain"){
                         mediaplayer = MediaPlayer.create(requireContext(), R.raw.umbrella)
@@ -207,6 +135,157 @@ class Fragment3 : Fragment() {
             }else {
                 mediaplayer!!.pause()
                 playbutton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+            }
+        }
+
+        val beforeBtn = view.findViewById<ImageButton>(R.id.beforeBtn)
+        val nextBtn = view.findViewById<ImageButton>(R.id.nextBtn)
+
+        beforeBtn.setOnClickListener {
+            if (mediaplayer.isPlaying){
+                mediaplayer!!.pause()
+                playbutton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+            }
+            index = index - 1
+            if (index == 0) {
+                index = 3
+            }
+            if (weatherResult=="Rain") {
+                if (index == 1) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.umbrella)
+                    musicCover.setImageResource(R.drawable.umbrella_cover)
+                    musicTitle.text = "Paris In the Rain - Lauv"
+                } else if (index == 2) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.atmyworst)
+                    musicCover.setImageResource(R.drawable.atmyworst)
+                    musicTitle.text = "At My Worst - Pink Sweat$"
+                } else {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.bestpart)
+                    musicCover.setImageResource(R.drawable.bestpart)
+                    musicTitle.text = "Best Part - H.E.R."
+                }
+            }
+            else if (weatherResult=="Clouds"){
+                if (index == 1) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.peaches)
+                    musicCover.setImageResource(R.drawable.cover)
+                    musicTitle.text = "Peaches - Justin Bieber"
+                } else if (index == 2) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.rain)
+                    musicCover.setImageResource(R.drawable.rain)
+                    musicTitle.text = "It Will Rain - Bruno Mars"
+                } else {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.chains)
+                    musicCover.setImageResource(R.drawable.chains)
+                    musicTitle.text = "Chains - Pink Sweat$"
+                }
+            }
+            else if (weatherResult=="Wind"){
+                if (index == 1) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.thunder)
+                    musicCover.setImageResource(R.drawable.thunder_cover)
+                    musicTitle.text = "Thunder - Jessie J"
+                } else if (index == 2) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.warriors)
+                    musicCover.setImageResource(R.drawable.warriors)
+                    musicTitle.text = "Warriors - Imagine Dragons"
+                } else {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.highhopes)
+                    musicCover.setImageResource(R.drawable.highhopes)
+                    musicTitle.text = "High Hopes - Panic! At the Disco"
+                }
+            }
+            else if (weatherResult=="Snow"){
+                if (index == 1) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.snowman)
+                    musicCover.setImageResource(R.drawable.snowman_cover)
+                    musicTitle.text = "Snowman - Sia"
+                } else if (index == 2) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.haunt)
+                    musicCover.setImageResource(R.drawable.haunt)
+                    musicTitle.text = "Haunt You - X Lovers"
+                } else {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.nervous)
+                    musicCover.setImageResource(R.drawable.nervous)
+                    musicTitle.text = "Nervous - Gavin James"
+                }
+            }
+            else{
+                weatherIcon.setImageResource(R.drawable.ic_launcher_foreground)
+            }
+        }
+
+        nextBtn.setOnClickListener {
+            index = index + 1
+            if (index == 4) {
+                index = 1
+            }
+            if (mediaplayer.isPlaying){
+                mediaplayer!!.pause()
+                playbutton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+            }
+            if (weatherResult=="Rain") {
+                if (index == 1) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.umbrella)
+                    musicCover.setImageResource(R.drawable.umbrella_cover)
+                    musicTitle.text = "Paris In the Rain - Lauv"
+                } else if (index == 2) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.atmyworst)
+                    musicCover.setImageResource(R.drawable.atmyworst)
+                    musicTitle.text = "At My Worst - Pink Sweat$"
+                } else {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.bestpart)
+                    musicCover.setImageResource(R.drawable.bestpart)
+                    musicTitle.text = "Best Part - H.E.R."
+                }
+            }
+            else if (weatherResult=="Clouds"){
+                if (index == 1) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.peaches)
+                    musicCover.setImageResource(R.drawable.cover)
+                    musicTitle.text = "Peaches - Justin Bieber"
+                } else if (index == 2) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.rain)
+                    musicCover.setImageResource(R.drawable.rain)
+                    musicTitle.text = "It Will Rain - Bruno Mars"
+                } else {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.chains)
+                    musicCover.setImageResource(R.drawable.chains)
+                    musicTitle.text = "Chains - Pink Sweat$"
+                }
+            }
+            else if (weatherResult=="Wind"){
+                if (index == 1) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.thunder)
+                    musicCover.setImageResource(R.drawable.thunder_cover)
+                    musicTitle.text = "Thunder - Jessie J"
+                } else if (index == 2) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.warriors)
+                    musicCover.setImageResource(R.drawable.warriors)
+                    musicTitle.text = "Warriors - Imagine Dragons"
+                } else {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.highhopes)
+                    musicCover.setImageResource(R.drawable.highhopes)
+                    musicTitle.text = "High Hopes - Panic! At the Disco"
+                }
+            }
+            else if (weatherResult=="Snow"){
+                if (index == 1) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.snowman)
+                    musicCover.setImageResource(R.drawable.snowman_cover)
+                    musicTitle.text = "Snowman - Sia"
+                } else if (index == 2) {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.haunt)
+                    musicCover.setImageResource(R.drawable.haunt)
+                    musicTitle.text = "Haunt You - X Lovers"
+                } else {
+                    mediaplayer = MediaPlayer.create(requireContext(), R.raw.nervous)
+                    musicCover.setImageResource(R.drawable.nervous)
+                    musicTitle.text = "Nervous - Gavin James"
+                }
+            }
+            else{
+                weatherIcon.setImageResource(R.drawable.ic_launcher_foreground)
             }
         }
 
