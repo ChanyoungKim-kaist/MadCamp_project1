@@ -10,6 +10,8 @@
  - 핸드폰 내부에 있는 연락처를 가져옵니다.
  - SearchView 기능을 이용하여, 돋보기 모양 아이콘을 누르면 원하는 연락처를 찾을 수 있습니다.
  
+ <img src = "https://user-images.githubusercontent.com/80759746/124569496-f60a9180-de80-11eb-99e1-75ab7360b7ff.jpg" width="400" height="700">
+
  
 ## 2. TAB2 : 갤러리
 
@@ -19,6 +21,7 @@
  - 촬영한 사진은 갤러리에 저장됩니다.
  - 위로 스와이프 하면, 갤러리와 동기화 됩니다.
 
+<img src = "https://user-images.githubusercontent.com/80759746/124569824-42ee6800-de81-11eb-85a5-98eea6302dd5.jpg" width="400" height="700">
 
 
 ## 3. TAB3 : 날씨 API / 노래 추천
@@ -26,3 +29,6 @@
  - 날씨에 맞춰 노래가 바뀝니다.
  - Progress Bar를 원하는 위치에 누르면 그 위치에서 노래가 재생됩니다.
  
+ <img src = "https://user-images.githubusercontent.com/80759746/124569838-471a8580-de81-11eb-9a95-c4a96693bb61.jpg" width="400" height="700">
+
+
