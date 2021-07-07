@@ -21,7 +21,7 @@
  - 촬영한 사진은 갤러리에 저장됩니다.
  - 위로 스와이프하면, 갤러리와 동기화됩니다.
 
-<img src = "https://user-images.githubusercontent.com/80759746/124569824-42ee6800-de81-11eb-85a5-98eea6302dd5.jpg" width="400" height="700">
+<img src = "https://user-images.githubusercontent.com/80759746/124691410-c27a4680-df16-11eb-8346-855b775567fa.jpg" width="400" height="700">
 
 
 ## 3. TAB3 : 날씨 API / 노래 추천
@@ -30,7 +30,10 @@
  - 날씨에 맞춰 노래가 바뀝니다.
  - 각 날씨별로 3개의 노래가 저장되어 있고, 다음/이전 버튼을 누르면 다른 노래를 재생할 수 있습니다.
  - Progress Bar를 원하는 위치에 누르면 그 위치에서 노래가 재생됩니다.
+ - 플러스 버튼을 누르면 도시를 입력하는 창이 나오고, 도시를 입력하면 그 도시의 현재 날씨가 나타납니다.
+ - 확인 가능한 도시는 대전, 서울, 부산, 인천, 광주, 대구, 울산, 서귀포, 제주 입니다.
+ - 도시의 이름을 입력하지 않거나 cancel 버튼을 누르면 대전 지역의 날씨로 초기화됩니다.
  
- <img src = "https://user-images.githubusercontent.com/80759746/124577700-77195700-de88-11eb-96e0-8076ff971d8a.jpg" width="400" height="700">
+ <img src = "https://user-images.githubusercontent.com/80759746/124577700-77195700-de88-11eb-96e0-8076ff971d8a.jpg" width="300" height="600"> <img src = "https://user-images.githubusercontent.com/80759746/124691393-be4e2900-df16-11eb-8e8c-f8304e4d4c5f.jpg" width="300" height="600">
 
 
